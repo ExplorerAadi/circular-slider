@@ -1,8 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 
-export const Slider = () => {
+type SliderDataType = {
+  name: string;
+  initialPercent: number;
+  color: string;
+};
+
+type DependentDataType = {
+  name: string;
+  percent: number;
+  color: string;
+  fixed?: boolean;
+};
+
+export const CircularSliderChart = ({
+  sliders,
+  totalValue,
+  onChange,
+  styles,
+  dependentData,
+}: {
+  sliders: SliderDataType[];
+  totalValue: number;
+  onChange: ({ slider, deg }: { slider: string; deg: number }) => void;
+  styles: { chartSize: number; sliderSize: number };
+  dependentData: DependentDataType[];
+}) => {
   const [referralPercent, setReferralPercent] = useState(10);
-  const [earnings, setEarnings] = useState(2500);
+  const [earnings, setEarnings] = useState(totalValue);
   const [sliderTwoDeg, setSliderTwoDeg] = useState((49 * 360) / 100);
   const [sliderOneDeg, setSliderOneDeg] = useState(
     sliderTwoDeg + (9 * 360) / 100
