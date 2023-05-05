@@ -1,11 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 
-export const Slider = () => {
-  const [referralPercent, setReferralPercent] = useState(10);
-  const [earnings, setEarnings] = useState(2500);
-  const [sliderTwoDeg, setSliderTwoDeg] = useState((49 * 360) / 100);
+type DataType = {
+  name: string;
+  percent: number;
+  color: string;
+};
+
+export const CircularSliderChart = ({
+  sliderOne,
+  sliderTwo,
+  onChange,
+  styles,
+  fixedData,
+}: {
+  sliderOne: DataType;
+  sliderTwo: DataType;
+  onChange: ({
+    slider,
+    deg,
+    pos,
+  }: {
+    slider: string;
+    deg: number;
+    pos: { x: number; y: number };
+  }) => void;
+  styles: { chartSize: number; sliderSize: number };
+  fixedData: DataType;
+}) => {
+  const [sliderTwoDeg, setSliderTwoDeg] = useState(
+    (sliderTwo.percent * 360) / 100
+  );
   const [sliderOneDeg, setSliderOneDeg] = useState(
-    sliderTwoDeg + (9 * 360) / 100
+    sliderTwoDeg + (sliderOne.percent * 360) / 100
   );
   const [sliderOnePos, setSliderOnePos] = useState({ x: 0, y: 0 });
   const [sliderTwoPos, setSliderTwoPos] = useState({ x: 0, y: 0 });
@@ -118,9 +144,10 @@ export const Slider = () => {
             e,
             sliderOneDeg,
             (deg: number, pos: { x: number; y: number }) => {
-              if (deg > 180 && deg < 360 - (referralPercent * 360) / 100) {
+              if (deg > 180 && deg < 360 - (fixedData.percent * 360) / 100) {
                 setSliderOneDeg(deg);
                 setSliderOnePos(pos);
+                onChange({ slider: "sliderOne", deg, pos });
               }
             }
           );
@@ -132,62 +159,55 @@ export const Slider = () => {
               if (deg < 180) {
                 setSliderTwoDeg(deg);
                 setSliderTwoPos(pos);
+                onChange({ slider: "sliderTwo", deg, pos });
               }
             }
           );
         }
       });
     }
-  }, [sliderOneDeg, sliderTwoDeg, sliderOnePos, sliderTwoPos, referralPercent]);
+  }, [sliderOneDeg, sliderTwoDeg, sliderOnePos, sliderTwoPos, fixedData]);
 
-  const dalalEarningsDeg = sliderTwoDeg;
-  const miscFeesDeg = sliderOneDeg;
-  const traderEarningsDeg = 360 - (referralPercent * 360) / 100;
+  const dependentData = 360 - (fixedData.percent * 360) / 100;
 
   return (
     <div className="container">
-      <div className="form-container">
-        <div className="form-fields">
-          <div>
-            <label htmlFor="earnings">Gross Earnings: </label>
-            <input
-              id="earnings"
-              value={earnings}
-              type="number"
-              onChange={(e) => setEarnings(Number(e.target.value))}
-            />
-          </div>
-          <div style={{ marginTop: "16px" }}>
-            <label htmlFor="referral">Referral %: </label>
-            <input
-              id="referral"
-              value={referralPercent}
-              type="number"
-              onChange={(e) => setReferralPercent(Number(e.target.value))}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="slider-container">
+      <div
+        id="circle"
+        ref={circleRef}
+        style={{
+          backgroundImage: `conic-gradient(yellow 0deg, yellow ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderOneDeg}deg, ${sliderOne.color} ${sliderOneDeg}deg, ${sliderOne.color} ${dependentData}deg, ${fixedData.color} ${dependentData}deg`,
+          width: `${styles.chartSize}px`,
+          height: `${styles.chartSize}px`,
+        }}
+      >
         <div
-          id="circle"
-          ref={circleRef}
+          id="inner-circle"
           style={{
-            backgroundImage: `conic-gradient(blue 0deg, blue ${dalalEarningsDeg}deg, orange ${dalalEarningsDeg}deg, orange ${miscFeesDeg}deg, gray ${miscFeesDeg}deg, gray ${traderEarningsDeg}deg, yellow ${traderEarningsDeg}deg`,
+            width: `${(70 * styles.chartSize) / 100}px`,
+            height: `${(70 * styles.chartSize) / 100}px`,
           }}
-        >
-          <div id="inner-circle"></div>
-          <div
-            id="slider-one"
-            ref={sliderOneRef}
-            style={{ left: `${sliderOnePos.x}px`, top: `${sliderOnePos.y}px` }}
-          ></div>
-          <div
-            id="slider-two"
-            ref={sliderTwoRef}
-            style={{ left: `${sliderTwoPos.x}px`, top: `${sliderTwoPos.y}px` }}
-          ></div>
-        </div>
+        ></div>
+        <div
+          id="slider-one"
+          ref={sliderOneRef}
+          style={{
+            left: `${sliderOnePos.x}px`,
+            top: `${sliderOnePos.y}px`,
+            width: `${styles.sliderSize}px`,
+            height: `${styles.sliderSize}px`,
+          }}
+        ></div>
+        <div
+          id="slider-two"
+          ref={sliderTwoRef}
+          style={{
+            left: `${sliderTwoPos.x}px`,
+            top: `${sliderTwoPos.y}px`,
+            width: `${styles.sliderSize}px`,
+            height: `${styles.sliderSize}px`,
+          }}
+        ></div>
       </div>
     </div>
   );
