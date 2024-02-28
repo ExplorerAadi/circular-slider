@@ -1,6 +1,9 @@
 # Circular Slider Chart (WIP)
 
-Circular Slider Chart is a simple and customizable circular slider component for React. It allows you to create circular sliders with a range of values (fuxed or variable), customize the appearance and behavior of the slider to suit your needs.
+Circular Slider Chart is a simple and customizable circular slider component for React. It allows you to create circular sliders with a range of values (fixed or variable), customize the appearance and behavior of the slider to suit your needs.
+
+![image](https://github.com/ExplorerAadi/circular-slider/assets/52901335/944c9999-42af-4ba5-ab35-0e67ade7e054)
+
 
 ## Development
 
