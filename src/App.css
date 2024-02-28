@@ -1,3 +1,7 @@
+body {
+  background-color: black;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -80,7 +84,7 @@
   height: 260px;
   border-radius: 100%;
   background-image: none;
-  background: white;
+  background: black;
 }
 
 #slider-one,
@@ -90,7 +94,7 @@
   width: 15px;
   left: 50%;
   top: 50%;
-  background: red;
+  background: white;
   transform: translate(-50%, -50%);
   border-radius: 100%;
   cursor: pointer;

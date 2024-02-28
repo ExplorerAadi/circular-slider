@@ -47,17 +47,6 @@ export const CircularSliderChart = ({
     ) => {
       const X = radius * Math.cos(theta);
       const Y = radius * Math.sin(theta);
-      // if (X > 0) {
-      //   X -= 8;
-      // } else {
-      //   X += 8;
-      // }
-
-      // if (Y > 0) {
-      //   Y -= 8;
-      // } else {
-      //   Y += 8;
-      // }
       setSliderPos({ x: X + radius, y: Y + radius });
     };
 
@@ -117,24 +106,24 @@ export const CircularSliderChart = ({
         mouseDownOnSliderOne = false,
         mouseDownOnSliderTwo = false;
 
-      circleRef.current.addEventListener("mousedown", function (e) {
+      circleRef.current.addEventListener("mousedown", function (_e) {
         mouseDownOnCircle = true;
       });
-      circleRef.current.addEventListener("mouseup", function (e) {
+      circleRef.current.addEventListener("mouseup", function (_e) {
         mouseDownOnCircle = false;
       });
 
-      sliderOneRef.current.addEventListener("mousedown", function (e) {
+      sliderOneRef.current.addEventListener("mousedown", function (_e) {
         mouseDownOnSliderOne = true;
       });
-      sliderOneRef.current.addEventListener("mouseup", function (e) {
+      sliderOneRef.current.addEventListener("mouseup", function (_e) {
         mouseDownOnSliderOne = false;
       });
 
-      sliderTwoRef.current.addEventListener("mousedown", function (e) {
+      sliderTwoRef.current.addEventListener("mousedown", function (_e) {
         mouseDownOnSliderTwo = true;
       });
-      sliderTwoRef.current.addEventListener("mouseup", function (e) {
+      sliderTwoRef.current.addEventListener("mouseup", function (_e) {
         mouseDownOnSliderTwo = false;
       });
 
@@ -176,7 +165,7 @@ export const CircularSliderChart = ({
         id="circle"
         ref={circleRef}
         style={{
-          backgroundImage: `conic-gradient(yellow 0deg, yellow ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderOneDeg}deg, ${sliderOne.color} ${sliderOneDeg}deg, ${sliderOne.color} ${dependentData}deg, ${fixedData.color} ${dependentData}deg`,
+          backgroundImage: `conic-gradient(red 0deg, red ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderTwoDeg}deg, ${sliderTwo.color} ${sliderOneDeg}deg, ${sliderOne.color} ${sliderOneDeg}deg, ${sliderOne.color} ${dependentData}deg, ${fixedData.color} ${dependentData}deg`,
           width: `${styles.chartSize}px`,
           height: `${styles.chartSize}px`,
         }}
